@@ -22,6 +22,8 @@ void loop() {
     flushAndSleep();
   while(r++ < 255)
     flushAndSleep();
+  while(b-- > 0)
+    flushAndSleep();
 }
 
 void flushAndSleep(){
