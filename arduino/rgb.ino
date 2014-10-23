@@ -25,8 +25,6 @@ void loop() {
     flushAndSleep();
   for(b; b > (unsigned char)0; b--)
     flushAndSleep();
-  while(b-- > 0)
-    flushAndSleep();
 }
 void flushAndSleep(){
   flushLights();
