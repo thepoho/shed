@@ -1,39 +1,50 @@
-#define CLOCK_PIN 8
-#define DATA_PIN 9
-#define LIGHT_COUNT = 50 //the number of lights in the string
-#define SLEEP = 100  //time to sleep between flushes in milllis
-char r, g, b;
+#define CLOCK_PIN 9
+#define DATA_PIN 8
+#define LIGHT_COUNT 50 //the number of lights in the string
+#define SLEEP 1 //time to sleep between flushes in milllis
+unsigned char r, g, b;
 
-void setup()   {
-  pinMode(clock_pin,  OUTPUT);
-  pinMode(data_pin, OUTPUT);
+void setup() {
+  pinMode(CLOCK_PIN, OUTPUT);
+  pinMode(DATA_PIN, OUTPUT);
   r = 255;
   g = b = 0;
+  //Serial.begin(9600); 
 }
 
 void loop() {
-  while(g++ < 255)
+  for(g; g < (unsigned char)255; g++)
     flushAndSleep();
-  while(r-- > 0)
+  for(r; r > (unsigned char)0; r--)
     flushAndSleep();
-  while(b++ < 255)
+  for(b; b < (unsigned char)255; b++)
     flushAndSleep();
-  while(g-- > 0)
+  for(g; g > (unsigned char)0; g--)
     flushAndSleep();
-  while(r++ < 255)
+  for(r; r < (unsigned char)255; r++)
+    flushAndSleep();
+  for(b; b > (unsigned char)0; b--)
     flushAndSleep();
 }
-
 void flushAndSleep(){
   flushLights();
-  delay(sleep);
+  // Serial.print("R: "); 
+  // Serial.print(r, DEC); 
+  // Serial.print(" G: "); 
+  // Serial.print(g, DEC); 
+  // Serial.print(" B: "); 
+  // Serial.println(b, DEC); 
+  delay(SLEEP);
 }
-
 void flushLights(){
-  for(int i=0; i < LIGHT_COUNT; i++){
+  int i = 0;
+  for(i=0; i < LIGHT_COUNT; i++){
+    
     shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, r);
     shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, g);
     shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, b);
   }
   delayMicroseconds(500); //500 micros to latch which is apparently 0.5 millis
 }
+
+
