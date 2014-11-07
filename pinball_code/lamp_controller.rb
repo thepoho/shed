@@ -1,36 +1,56 @@
 class LampController
-  attr_accessor :lamps
-  column_pin_numbers = [2,3,4]
-  row_pin_numbers = [17,27,22,10,9,11,5,6] #pin 21??
+  require 'yaml'
+  require './lamp.rb'
+  if Gem::Platform.local.cpu == "arm"
+    require 'pi_piper'
+  else
+    require './poho_pi_piper_emulator.rb'
+  end
 
-  def initialize(lamps)
-    @lamps = lamps
+
+  attr_accessor :lamps
+  DATA_FILE = "lamp_data.yml"
+
+  def initialize
+    lamp_data = YAML::load(File.open(DATA_FILE)) rescue {}
+
+    @lamps = []
+    lamp_data[:lamps].each do |x|
+      @lamps << Lamp.new(x)
+    end
 
     @col_lamps = {}
-    lamps.each do |l|
+    @lamps.each do |l|
       @col_lamps[l.col] ||= []
       @col_lamps[l.col] << l
 #      @col_lamps[l.col].sort!
     end
 
     @row_lamps = {}
-    lamps.each do |l|
+    @lamps.each do |l|
       @row_lamps[l.row] ||= []
       @row_lamps[l.row] << l
 #      @row_lamps[l.row].sort!
     end
 
+    column_pin_numbers = lamp_data[:col_pins]
+    row_pin_numbers    = lamp_data[:row_pins]
+ 
     @column_pins = column_pin_numbers.map{|x| PiPiper::Pin.new(pin: x, direction: :out)}
     @row_pins    = row_pin_numbers.map{|x| PiPiper::Pin.new(pin: x, direction: :out)}
 
     @row_pins.each {|x| x.off}
     @column_pins.each {|x| x.off}
   end
-
+  
   def start_thread
     @@thread = Thread.new do
       while true
         (0..7).each do |col|
+
+          @row_pins.each{|r| r.off}
+
+          #TODO: pre-generate these arrays
           output_arr = ("%b" % col).split(//).map(&:to_i)
           output_arr = [0] + output_arr while output_arr.length < 3
           output_arr.each_with_index do |num, idx|
@@ -47,12 +67,16 @@ class LampController
             else
               @row_pins[lamp.row].off
             end
-          end
+          end if @col_lamps[col]
+          sleep(0.01)
         end
       end
     end
   end
+
   def thread
     @@thread
   end
+  
+  
 end
