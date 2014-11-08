@@ -7,4 +7,4 @@ end
 require './lamp_controller.rb'
 
 lc = LampController.new
-lc.start_thread
+lc.run

@@ -1,0 +1,27 @@
+---
+:switches:
+- :name: :shoot_again
+  :col: 0
+  :row: 0
+- :name: :wheel_5x
+  :col: 0
+  :row: 1
+- :name: :bonus_1k
+  :col: 1
+  :row: 0
+- :name: :bonus_2k
+  :col: 1
+  :row: 1
+:input_pins:
+- 23
+- 24
+- 25
+- 8
+- 7
+- 12
+- 16
+- 20
+:output_pins:
+- 14
+- 15
+- 18
