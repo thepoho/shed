@@ -8,8 +8,6 @@ class LampController
   end
 
   DATA_FILE = "lamp_data.yml"
-  FAST_FLASH_SPEED = 100
-  SLOW_FLASH_SPEED = 500
 
   def initialize
     lamp_data = YAML::load(File.open(DATA_FILE)) rescue {}
@@ -48,30 +46,8 @@ class LampController
       ret
     end
 
-    #set up some variables so we know if we are flashing or not
-    last_time = Time.now.to_f * 1000
-    elapsed_time = 0
-    fast_flash = slow_flash = false
-    last_fast_flash = last_slow_flash = 0
-
     while true
-      #work out our current delta
-      new_time = Time.now.to_f * 1000
-      elapsed_time += (new_time - last_time)
-      last_time = new_time
-
-      #work out if fast_flash needs switching state
-      if elapsed_time >= (last_fast_flash + FAST_FLASH_SPEED)
-        last_fast_flash = elapsed_time
-        fast_flash = !fast_flash
-      end
-
-      #work out if slow_flash needs switching state
-      if elapsed_time >= (last_slow_flash + SLOW_FLASH_SPEED)
-        last_slow_flash = elapsed_time
-        slow_flash = !slow_flash
-      end
-
+  
       #now work the matrix, baby
       (0..7).each do |col|
 
@@ -89,7 +65,7 @@ class LampController
 
         #at this stage our column is set, now to set the rows
         Lamp.lamps_for_column(col).each do |lamp|
-          if lamp.on? || (lamp.fast_flash? && fast_flash) || (lamp.slow_flash? && slow_flash)
+          if lamp.value == 1
             @row_pins[lamp.row].on
           else
             @row_pins[lamp.row].off
