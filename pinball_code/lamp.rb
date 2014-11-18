@@ -4,7 +4,7 @@
 class Lamp
   attr_accessor :id, :name, :col, :row, :xpos, :ypos, :state, :r, :g, :b, :value
 
-  FAST_FLASH_SPEED = 100
+  FAST_FLASH_SPEED = 400
   SLOW_FLASH_SPEED = 500
 
   @@sorted_lamps_by_column = {}
@@ -67,11 +67,14 @@ class Lamp
       @@slow_flash = !@@slow_flash
     end
 
-    @@lamps.each do |lamp|
+    @@lamps.each_with_index do |lamp,idx|
       lamp.value = @@slow_flash if lamp.slow_flash?
       lamp.value = @@fast_flash if lamp.fast_flash?
       lamp.value = 0 if lamp.off?
       lamp.value = 1 if lamp.on?
+      if idx == 0
+#        puts lamp.value
+      end
     end
   end
 end
