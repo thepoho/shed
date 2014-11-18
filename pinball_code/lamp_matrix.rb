@@ -5,6 +5,16 @@ else
 end
 
 require './lamp_controller.rb'
+require './switch_controller.rb'
 
 lc = LampController.new
-lc.run
+
+lc.start_thread
+
+last_run = Time.now.to_f * 1000
+
+while(true)
+  now = (Time.now.to_f * 1000)
+  delta = now - last_run
+  Lamp.update(delta)
+end
