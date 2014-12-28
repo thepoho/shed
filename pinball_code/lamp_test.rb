@@ -16,6 +16,7 @@
     @row_pins.each {|x| x.on}
 
 exit(0)
+
     while true
   
       #now work the matrix, baby

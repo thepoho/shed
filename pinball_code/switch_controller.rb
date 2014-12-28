@@ -18,6 +18,8 @@ class SwitchController
       Switch.new(x)
     end
 
+    puts switch_data[:switches].count
+
     output_pin_numbers = switch_data[:output_pins]
     input_pin_numbers  = switch_data[:input_pins]
  
@@ -73,14 +75,6 @@ class SwitchController
         sleep(0.01)
       end
       
-      if debug
-        out = []
-        Switch.all.each do |switch|
-          out << (switch.is_pressed ? 1 : 0)
-        end
-        print out.join + "\r"
-      end
-
     end #ends the while true loop
 
 

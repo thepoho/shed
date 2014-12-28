@@ -51,33 +51,29 @@ class LampController
     while true
   
       #now work the matrix, baby
-      #(0..7).each do |col|
-        @column_pins.each do |col|
+      (0..7).each do |col|
+        
+        #turn off all columns
+        @column_pins.each {|x| x.off}
 
-        #turn off all the rows to prevent ghosting
-        @row_pins.each{|r| r.off}
-
-        @column_pins.each{|c| c.off}
-
-        col.on
-        #set the columns
-        #output_data[col].each_with_index do |num, idx|
-        #  if num == 0
-        #    @column_pins[idx].on
-        #  else
-        #    @column_pins[idx].off
-        #  end
-        #end
-
-        #at this stage our column is set, now to set the rows
-        #Lamp.lamps_for_column(0).each do |lamp|
-        lamp = Lamp.lamps.first
-          if lamp.value == 1
+        #set the rows appropriately
+        Lamp.lamps_for_column(col).each do |lamp|
+          lamp = Lamp.lamps.first
+          if lamp.lit?
             @row_pins[lamp.row].on
           else
             @row_pins[lamp.row].off
           end
-        #end
+        end
+
+        #now do the columns, setting the lights on!
+        output_data[col].each_with_index do |num, idx|
+         if num == 0
+           @column_pins[idx].on
+         else
+           @column_pins[idx].off
+         end
+        end
        
         #at this point our required lights should be on
 
