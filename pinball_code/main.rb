@@ -70,7 +70,8 @@ class Main
           end
         end
       end  
-      #yield
+      # yield
+      sleep(0.0001)
     end
   end
 end
