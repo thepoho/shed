@@ -8,7 +8,7 @@ require './lamp_controller.rb'
 require './switch_controller.rb'
 require 'sinatra'
 
-#require './server.rb'
+require './server.rb'
 
 DEBUG_LAMPS     = false
 DEBUG_SWITCHES  = false
@@ -81,15 +81,16 @@ main = Main.new
 Thread.new do
   main.run
   #sleep(0.001)
-  yield
+  sleep(0.0001)
+  # yield
 end
 
-get '/' do
-
-  lamps = []
-  (0..7).each do |col|
-    lamps << Lamp.lamps_for_column(col).map{|x| x.lit? ? 1 : 0}.join("")
+Thread.new do 
+  get '/' do
+    haml :index
+    # "poho"
   end
-  lamps.join(" ")
+  # sleep(0.0001)
 end
 
+# include 'server.rb'
