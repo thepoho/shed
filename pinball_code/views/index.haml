@@ -3,16 +3,33 @@
   %table.lamps{style: "width:100%; border: 1px solid"}
     -(0..7).each do |row|
       %tr{class: "row_#{row}"}
-        -(0..7).each do |column|
-          %td{class: "col_#{column}"}
-            = "#{row}:#{column}"
+        -(0..7).each do |col|
+          %td{class: "col_#{col} r#{row}c#{col}"}
+            = "#{row}:#{col}"
 
 
 .row
-  %h3 Switches
-  %table.switches{style: "width:100%; border: 1px solid"}
+  %h3
+    Switches
+  Polling interval
+  %select.polling-interval
+    %option{value: "0"}Stopped
+    %option{value: "25"}25ms
+    %option{value: "100"}100ms
+    %option{value: "500"}500ms
+    %option{value: "1000", selected: :selected}1000ms
+    %option{value: "5000"}5000ms
+  %br
+  %br
+  %table.switches{style: "border: 1px solid"}
+    %tr
+      %td
+        %a.reload_switches.btn.btn-primary.btn-sm{href:'#'}Reload
+      -(0..7).each do |col|
+        %td.heading Col #{col}
     -(0..7).each do |row|
       %tr{class: "row_#{row}"}
-        -(0..7).each do |column|
-          %td{class: "col_#{column}"}
-            = "#{row}:#{column}"
+        %td.heading Row #{row}
+        -(0..7).each do |col|
+          %td.switch{class: "col_#{col} r#{row}c#{col}"}
+            = "#{row}:#{col}"

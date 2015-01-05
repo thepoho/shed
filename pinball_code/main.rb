@@ -7,9 +7,11 @@ end
 require './lamp_controller.rb'
 require './switch_controller.rb'
 require 'sinatra'
+require 'json'
 
 require './server.rb'
 
+DEBUG           = true
 DEBUG_LAMPS     = false
 DEBUG_SWITCHES  = false
 
@@ -40,36 +42,36 @@ class Main
       # Switch.update(delta)
 
 
-      if (DEBUG_LAMPS || DEBUG_SWITCHES) && Time.now.to_f > (last_debug + 0.5)
-        #only show a debug every .1 seconds
-        last_debug = Time.now.to_f
-        if DEBUG_LAMPS
-          71.times do |x|
-            print "\b"
-          end
-          lamps = []
-          (0..7).each do |col|
-            lamps << Lamp.lamps_for_column(col).map{|x| x.lit? ? 1 : 0}.join("")
-          end
-          print lamps.join(" ")
-          # print "\n poho"
-          #print lamps.join(" ")
+      # if (DEBUG_LAMPS || DEBUG_SWITCHES) && Time.now.to_f > (last_debug + 0.5)
+      #   #only show a debug every .1 seconds
+      #   last_debug = Time.now.to_f
+      #   if DEBUG_LAMPS
+      #     71.times do |x|
+      #       print "\b"
+      #     end
+      #     lamps = []
+      #     (0..7).each do |col|
+      #       lamps << Lamp.lamps_for_column(col).map{|x| x.lit? ? 1 : 0}.join("")
+      #     end
+      #     print lamps.join(" ")
+      #     # print "\n poho"
+      #     #print lamps.join(" ")
     
-        end
+      #   end
    
-        if DEBUG_SWITCHES
-          switches = []
-          Switch.all.each_with_index do |switch, idx|
-            switches << " " if idx != 0 && idx % 8 == 0
-            switches << (switch.is_pressed ? 1 : 0)
-          end
-          print switches.join("")
+      #   if DEBUG_SWITCHES
+      #     switches = []
+      #     Switch.all.each_with_index do |switch, idx|
+      #       switches << " " if idx != 0 && idx % 8 == 0
+      #       switches << (switch.is_pressed ? 1 : 0)
+      #     end
+      #     print switches.join("")
   
-          72.times do |x|
-            print "\b"
-          end
-        end
-      end  
+      #     72.times do |x|
+      #       print "\b"
+      #     end
+      #   end
+      # end  
       # yield
       sleep(0.0001)
     end
@@ -78,17 +80,28 @@ end
 
 main = Main.new
 #Server.new(main)
-Thread.new do
-  main.run
-  #sleep(0.001)
-  sleep(0.0001)
-  # yield
+unless DEBUG
+  Thread.new do
+    main.run
+    #sleep(0.001)
+    # sleep(0.0001)
+    # yield
+  end
 end
 
 Thread.new do 
   get '/' do
     haml :index
     # "poho"
+  end
+  get '/lamp_data' do
+    content_type :json
+    Lamp.all.map{|x| {r: x.row, c: x.col, s: x.state, l: x.lit?}}.to_json
+  end
+  get '/switch_data' do
+    content_type :json
+    Switch.all.map{|x| {r: x.row, c: x.col, ip: x.is_pressed ? 1 : 0, wp: x.was_pressed ? 1 : 0}}.to_json
+    # Switch.all.map{|x| {r: x.row, c: x.col, ip: rand(2), wp: x.was_pressed ? 1 : 0}}.to_json
   end
   # sleep(0.0001)
 end

@@ -78,7 +78,7 @@ class LampController
         #at this point our required lights should be on
 
         #now avoid thrashing the CPU and maybe let the light stay on for a tiny bit of time
-        sleep(0.001)
+        sleep(0.01)
 
       end
     end
