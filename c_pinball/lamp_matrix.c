@@ -15,9 +15,8 @@ int main(void)
     return 1 ;
   
 
-  FIX THESE PIN NUMBERS
-  int rowPins[8] = {11,13,15,19,21,23,29,31};
-  int colPins[3] = {3,5,7};
+  int rowPins[8] = {0,2,3,12,13,14,21,22};
+  int colPins[3] = {8,9,7};
   int colOutputs[8][3] = {{0,0,0},{0,0,1},{0,1,0},{0,1,1},{1,0,0},{1,0,1},{1,1,0},{1,1,1}};
 
   for(int i = 0; i < SIZEOF(rowPins); i++){
@@ -31,34 +30,35 @@ int main(void)
 
 
   while(1){
+//printf("abc\n");
     for(int k = 0; k <= 7; k++)
     {
+//printf("p");
+//delay(0.1f);
+//printf("o");
       //turn all rows off
-      for(int i = 0; i < SIZEOF(rowPins); i++){
-      //for(int i = 0; i < 8; i++){
-        digitalWrite(rowPins[i], LOW);
-      }
+      //for(int i = 0; i < SIZEOF(rowPins); i++){
+      //  digitalWrite(rowPins[i], LOW);
+     // }
 
-      //sleep(1);
+     //delay(1);
 
       for(int i = 0; i < 3; i++){
 	digitalWrite(colPins[i], colOutputs[k][i]);
       }
-      /*
-      if(k == 0 || 1)
-        digitalWrite(colPins[0], LOW);
-      else
-        digitalWrite(colPins[0], HIGH);
-      //*/
      
       for(int i = 0; i < SIZEOF(rowPins); i++){
         if(k == 0){
           digitalWrite(rowPins[i], HIGH);
         }
         else{
-          digitalWrite(rowPins[i], HIGH);
+          digitalWrite(rowPins[i], LOW);
         }
       }
+      
+      //if(k == 0){
+      //  delay(0.1f);
+     // }
     }
   }
 
