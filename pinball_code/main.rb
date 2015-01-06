@@ -73,19 +73,15 @@ class Main
       #   end
       # end  
       # yield
-      sleep(0.0001)
+      sleep(0.01)
     end
   end
 end
 
 main = Main.new
-#Server.new(main)
 unless DEBUG
   Thread.new do
     main.run
-    #sleep(0.001)
-    # sleep(0.0001)
-    # yield
   end
 end
 
@@ -105,7 +101,4 @@ Thread.new do
     # Switch.all.map{|x| {r: x.row, c: x.col, ip: x.is_pressed ? 1 : 0, wp: x.was_pressed ? 1 : 0}}.to_json
     Switch.all.map{|x| {r: x.row, c: x.col, ip: rand(2), wp: x.was_pressed ? 1 : 0}}.to_json
   end
-  # sleep(0.0001)
 end
-
-# include 'server.rb'
