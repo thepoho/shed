@@ -17,16 +17,14 @@ class LampController
       Lamp.new(x)
     end
 
-
     column_pin_numbers = lamp_data[:col_pins]
     row_pin_numbers    = lamp_data[:row_pins]
-    
  
     @column_pins = column_pin_numbers.map{|x| PiPiper::Pin.new(pin: x, direction: :out)}
     @row_pins    = row_pin_numbers.map{|x| PiPiper::Pin.new(pin: x, direction: :out)}
 
-    @row_pins.each {|x| x.on}
-    @column_pins.each {|x| x.on}
+    @row_pins.each {|x| x.off}
+    @column_pins.each {|x| x.off}
   end
 
   def lamp(identifier)
@@ -34,7 +32,6 @@ class LampController
   end
   
   def start_thread
-    #return 0
     @@thread = Thread.new do
       self.run
     end
@@ -48,6 +45,8 @@ class LampController
       ret
     end
 
+    
+
     while true
   
       #now work the matrix, baby
@@ -58,7 +57,6 @@ class LampController
 
         #set the rows appropriately
         Lamp.lamps_for_column(col).each do |lamp|
-          lamp = Lamp.lamps.first
           if lamp.lit?
             @row_pins[lamp.row].on
           else
@@ -78,7 +76,7 @@ class LampController
         #at this point our required lights should be on
 
         #now avoid thrashing the CPU and maybe let the light stay on for a tiny bit of time
-        sleep(0.01)
+        sleep(0.001)
 
       end
     end

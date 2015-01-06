@@ -4,7 +4,7 @@
 class Lamp
   attr_accessor :id, :name, :col, :row, :xpos, :ypos, :state, :r, :g, :b, :value
 
-  FAST_FLASH_SPEED = 200
+  FAST_FLASH_SPEED = 900
   SLOW_FLASH_SPEED = 600
 
   @@sorted_lamps_by_column = {}
@@ -23,6 +23,7 @@ class Lamp
     
     # @state = rand(2) == 0 ? :flash_fast : :flash_slow
     @state = :flash_fast
+    @state = :on
     @value = 0
     @@lamps << self
     @@sorted_lamps_by_column[@col] ||= []
@@ -32,7 +33,7 @@ class Lamp
   end
 
   def lit?
-    @value == 1
+    @state == :on || @value == 1
   end
 
   def on?
