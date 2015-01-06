@@ -15,12 +15,11 @@
     @column_pins.each {|x| x.on}
     @row_pins.each {|x| x.on}
 
-exit(0)
 
     while true
   
       #now work the matrix, baby
-      #(0..7).each do |col|
+      (0..7).each do |col|
         @column_pins.each do |col|
 
         #turn off all the rows to prevent ghosting
