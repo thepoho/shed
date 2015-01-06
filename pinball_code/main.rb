@@ -11,7 +11,7 @@ require 'json'
 
 require './server.rb'
 
-DEBUG           = true
+DEBUG           = false
 DEBUG_LAMPS     = false
 DEBUG_SWITCHES  = false
 
@@ -98,7 +98,7 @@ Thread.new do
     content_type :json
     #value - same as lit? method
     Lamp.all.map{|x| {r: x.row, c: x.col, s: x.state, l: x.value}}.to_json
-    Lamp.all.map{|x| {r: x.row, c: x.col, s: x.state, l: rand(2)}}.to_json
+    # Lamp.all.map{|x| {r: x.row, c: x.col, s: x.state, l: rand(2)}}.to_json
   end
   get '/switch_data' do
     content_type :json

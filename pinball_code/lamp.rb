@@ -20,6 +20,8 @@ class Lamp
       instance_variable_set("@#{x}", opts[x.to_sym])
     end
     @r = @g = @b = 255
+    
+    # @state = rand(2) == 0 ? :flash_fast : :flash_slow
     @state = :flash_fast
     @value = 0
     @@lamps << self
