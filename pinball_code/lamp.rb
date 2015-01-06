@@ -46,6 +46,11 @@ class Lamp
     @state == :flash_slow
   end
 
+  def self.find_by_location(col, row)
+    # @@sorted_lamps_by_column[col][row]
+    self.lamps_for_column(col)[row]
+  end
+
   def self.lamps_for_column(col)
     @@sorted_lamps_by_column[col] || []
   end

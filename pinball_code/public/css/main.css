@@ -1,6 +1,7 @@
 table.lamps tr td{
   border: 1px solid;
   width: 50px;
+  text-align: center;
 }
 table.switches tr td{
   border: 1px solid;
@@ -12,6 +13,13 @@ table.switches tr td.switch-on{
   background-color: lightblue;
 }
 table.switches tr td.switch-off{
+  background-color: white;
+}
+
+table.lamps tr td.lamp-on{
+  background-color: orange;
+}
+table.lamps tr td.lamp-off{
   background-color: white;
 }
 

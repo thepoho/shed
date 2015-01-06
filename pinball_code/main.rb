@@ -96,12 +96,14 @@ Thread.new do
   end
   get '/lamp_data' do
     content_type :json
-    Lamp.all.map{|x| {r: x.row, c: x.col, s: x.state, l: x.lit?}}.to_json
+    #value - same as lit? method
+    Lamp.all.map{|x| {r: x.row, c: x.col, s: x.state, l: x.value}}.to_json
+    Lamp.all.map{|x| {r: x.row, c: x.col, s: x.state, l: rand(2)}}.to_json
   end
   get '/switch_data' do
     content_type :json
-    Switch.all.map{|x| {r: x.row, c: x.col, ip: x.is_pressed ? 1 : 0, wp: x.was_pressed ? 1 : 0}}.to_json
-    # Switch.all.map{|x| {r: x.row, c: x.col, ip: rand(2), wp: x.was_pressed ? 1 : 0}}.to_json
+    # Switch.all.map{|x| {r: x.row, c: x.col, ip: x.is_pressed ? 1 : 0, wp: x.was_pressed ? 1 : 0}}.to_json
+    Switch.all.map{|x| {r: x.row, c: x.col, ip: rand(2), wp: x.was_pressed ? 1 : 0}}.to_json
   end
   # sleep(0.0001)
 end

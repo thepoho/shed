@@ -6,7 +6,10 @@
     %link{rel: :stylesheet, type: "text/css", media: :screen, href: "/css/main.css"}
     %script{type: "text/javascript", src: "/js/jquery-1.11.2.min.js"}
     %script{type: "text/javascript", src: "/jquery_ui/jquery-ui.min.js"}
-    %script{type: "text/javascript", src: "/js/main.js"}
+    %script{type: "text/javascript", src: "/bootstrap_dist/js/bootstrap.min.js"}
+    %script{type: "text/javascript", src: "/js/pinball.js"}
+    %script{type: "text/javascript", src: "/js/switches.js"}
+    %script{type: "text/javascript", src: "/js/lamps.js"}
     :javascript
       jQuery(function($){
         Pinball.startup();
@@ -18,9 +21,5 @@
           .navbar-header
             %a.navbar-brand{href: '/'}
               Poho Pinball
-      
-      / %nav.collapse.navbar-collapse
-      /   %ul.navbar.nav
-      / .page-header
-      /   %h1 Poho's Pinball
+              
       = yield

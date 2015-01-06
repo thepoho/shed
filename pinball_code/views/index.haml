@@ -1,35 +1,64 @@
 .row
-  %h3 Lamps
-  %table.lamps{style: "width:100%; border: 1px solid"}
-    -(0..7).each do |row|
-      %tr{class: "row_#{row}"}
-        -(0..7).each do |col|
-          %td{class: "col_#{col} r#{row}c#{col}"}
-            = "#{row}:#{col}"
+  .col-xs-6
+    %h3 Lamps
+    Polling interval
+    %select.lamp-polling-interval
+      %option{value: "0"}Stopped
+      %option{value: "500"}500ms
+      %option{value: "1000", selected: :selected}1000ms
+      %option{value: "5000"}5000ms
+    %br
+    %br
 
-
-.row
-  %h3
-    Switches
-  Polling interval
-  %select.polling-interval
-    %option{value: "0"}Stopped
-    %option{value: "25"}25ms
-    %option{value: "100"}100ms
-    %option{value: "500"}500ms
-    %option{value: "1000", selected: :selected}1000ms
-    %option{value: "5000"}5000ms
-  %br
-  %br
-  %table.switches{style: "border: 1px solid"}
-    %tr
-      %td
-        %a.reload_switches.btn.btn-primary.btn-sm{href:'#'}Reload
-      -(0..7).each do |col|
-        %td.heading Col #{col}
-    -(0..7).each do |row|
-      %tr{class: "row_#{row}"}
-        %td.heading Row #{row}
+    %table.lamps{style: "border: 1px solid"}
+      %tr
+        %td
+          %a.reload_lamps.btn.btn-primary.btn-sm{href:'#'}Reload
         -(0..7).each do |col|
-          %td.switch{class: "col_#{col} r#{row}c#{col}"}
-            = "#{row}:#{col}"
+          %td.heading Col #{col}
+    
+      -(0..7).each do |row|
+        %tr{class: "row_#{row}"}
+          %td.heading Row #{row}
+          -(0..7).each do |col|
+            %td.lamp{class: "col_#{col} r#{row}c#{col}"}
+              %span.display
+                = "#{row}:#{col}"
+              .lamp_details{style: "display: none"}
+                - lamp = Lamp.find_by_location(col, row)
+                - %w{name row col xpos ypos state value}.each do |x|
+                  #{x}: #{lamp.send(x)}
+                  %br
+  .col-xs-6
+    %h3
+      Switches
+    Polling interval
+    %select.switch-polling-interval
+      %option{value: "0"}Stopped
+      %option{value: "25"}25ms
+      %option{value: "100"}100ms
+      %option{value: "500"}500ms
+      %option{value: "1000", selected: :selected}1000ms
+      %option{value: "5000"}5000ms
+    %br
+    %br
+    %table.switches{style: "border: 1px solid"}
+      %tr
+        %td
+          %a.reload_switches.btn.btn-primary.btn-sm{href:'#'}Reload
+        -(0..7).each do |col|
+          %td.heading Col #{col}
+      -(0..7).each do |row|
+        %tr{class: "row_#{row}"}
+          %td.heading Row #{row}
+          -(0..7).each do |col|
+            %td.switch{class: "col_#{col} r#{row}c#{col}"}
+              %span.display
+                = "#{row}:#{col}"
+              .switch_details{style: "display: none"}
+                - switch = Switch.find_by_location(col, row)
+                Name: #{switch.name}
+                %br
+                Row: #{row}
+                %br
+                Col: #{col}
