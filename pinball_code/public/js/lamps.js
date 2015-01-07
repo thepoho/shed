@@ -17,10 +17,30 @@ Pinball.Lamps = {
         Pinball.Lamps.setReloadLampsTimeout();
       }
     });
-    $("td.lamp").popover({html: true, 
-      content: function(){
-      return($(this).find(".lamp_details").html());
-    }});
+    $("td.lamp").click(function(){
+      var val = $(this).find("span.display").html();
+      var next;
+      if(val == "FF")
+        next = "SF";
+      if(val == "SF")
+        next = "OFF";
+      if(val == "OFF")
+        next = "ON";
+      if(val == "ON")
+        next = "FF";
+
+      var col = $(this).attr("data-col");
+      var row = $(this).attr("data-row");
+     
+      var to_send = {row: row, col: col, state: next};
+      $.post("/set_lamp", to_send, function(data){
+        $(this).find("span.display").html(next);
+      });
+    });
+    #$("td.lamp").popover({html: true, 
+    #  content: function(){
+    #  return($(this).find(".lamp_details").html());
+    #}});
   },
   setReloadLampsTimeout: function(){
     if(Pinball.Lamps.lampPollingInterval != 0){
