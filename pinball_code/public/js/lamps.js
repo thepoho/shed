@@ -21,8 +21,8 @@ Pinball.Lamps = {
       var val = $(this).find("span.display").html();
       var next;
       if(val == "FF")
-        next = "SF";
-      if(val == "SF")
+        next = "FS";
+      if(val == "FS")
         next = "OFF";
       if(val == "OFF")
         next = "ON";
@@ -34,13 +34,14 @@ Pinball.Lamps = {
      
       var to_send = {row: row, col: col, state: next};
       $.post("/set_lamp", to_send, function(data){
-        $(this).find("span.display").html(next);
+        // $(this).find("span.display").html(next);
+        // Pinball.Lamps.doReloadData(data);
       });
     });
-    #$("td.lamp").popover({html: true, 
-    #  content: function(){
-    #  return($(this).find(".lamp_details").html());
-    #}});
+    // $("td.lamp").popover({html: true, 
+    //   content: function(){
+    //   return($(this).find(".lamp_details").html());
+    // }});
   },
   setReloadLampsTimeout: function(){
     if(Pinball.Lamps.lampPollingInterval != 0){
@@ -50,20 +51,24 @@ Pinball.Lamps = {
   },
   reloadLamps: function(preventReload){
     $.get("/lamp_data", function(data){
-      $.each(data, function(idx, d){
-        element = $("td.lamp.r"+d.r+"c"+d.c);
-        var tmp = {flash_fast: "FF", flash_slow: "FS", on: "ON", off: "OFF"}
-        element.find("span.display").html(tmp[d.s]);
-        if(d.l == 0){
-          element.removeClass("lamp-on");
-          element.addClass("lamp-off");
-        }else{
-          element.removeClass("lamp-off");
-          element.addClass("lamp-on");
-        }
-      });
+      Pinball.Lamps.doReloadData(data);
       if(preventReload != true){
         Pinball.Lamps.setReloadLampsTimeout();
+      }
+    });
+  },
+  doReloadData: function(data){
+    console.log(data);
+    $.each(data, function(idx, d){
+      element = $("td.lamp.r"+d.r+"c"+d.c);
+      var tmp = {flash_fast: "FF", flash_slow: "FS", on: "ON", off: "OFF"}
+      element.find("span.display").html(tmp[d.s]);
+      if(d.l == 0){
+        element.removeClass("lamp-on");
+        element.addClass("lamp-off");
+      }else{
+        element.removeClass("lamp-off");
+        element.addClass("lamp-on");
       }
     });
   }

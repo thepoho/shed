@@ -50,11 +50,11 @@ class Lamp
 
   def self.find_by_location(col, row)
     # @@sorted_lamps_by_column[col][row]
-    self.lamps_for_column(col)[row]
+    self.lamps_for_column(col)[row.to_i]
   end
 
   def self.lamps_for_column(col)
-    @@sorted_lamps_by_column[col] || []
+    @@sorted_lamps_by_column[col.to_i] || []
   end
   def self.all
     @@lamps

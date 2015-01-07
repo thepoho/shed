@@ -103,7 +103,12 @@ Thread.new do
   end
   post '/set_lamp' do
     if l = Lamp.find_by_location(params[:col], params[:row])
-      l.state = params[:state]
+      lookups = {"ON" => :on, "OFF" => :off, "FF" => :fast_flash, "FS" => :flash_slow}
+      tmp = lookups[params[:state]]
+      # unless tmp.blank?
+        l.state = tmp
+      # end
     end
+    Lamp.all.map{|x| {r: x.row, c: x.col, s: x.state, l: x.value}}.to_json
   end
 end
