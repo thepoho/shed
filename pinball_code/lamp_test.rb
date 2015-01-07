@@ -5,8 +5,15 @@
   end
 
 
-    column_pin_numbers = [2,3]
-    row_pin_numbers = [17,27]
+    #column_pin_numbers = [8,9,7]
+    #column_pin_numbers = [3,5,7]
+    column_pin_numbers = [2,3,4]
+    #row_pin_numbers = [0,2,3,12,13,14,21,22]
+    #row_pin_numbers = [11,13,15,19,21,23,29,31]
+    row_pin_numbers = [17,27,22,10,9,11,5,6]
+    
+
+    col_bin = [[0,0,0],[1,0,0],[0,1,0],[1,1,0],[0,0,1],[1,0,1],[0,1,1],[1,1,1]]
     
  
     @column_pins = column_pin_numbers.map{|x| PiPiper::Pin.new(pin: x, direction: :out)}
@@ -20,37 +27,30 @@
   
       #now work the matrix, baby
       (0..7).each do |col|
-        @column_pins.each do |col|
-
         #turn off all the rows to prevent ghosting
         @row_pins.each{|r| r.off}
 
         @column_pins.each{|c| c.off}
 
-        col.on
-        #set the columns
-        #output_data[col].each_with_index do |num, idx|
-        #  if num == 0
-        #    @column_pins[idx].on
-        #  else
-        #    @column_pins[idx].off
-        #  end
-        #end
-
-        #at this stage our column is set, now to set the rows
-        #Lamp.lamps_for_column(0).each do |lamp|
-        lamp = Lamp.lamps.first
-          if lamp.value == 1
-            @row_pins[lamp.row].on
+        bin = col_bin[col]
+        (0..2).each do |x|
+          if bin[x] == 0
+            @column_pins[x].off
           else
-            @row_pins[lamp.row].off
+            @column_pins[x].on
           end
-        #end
+        end
+        
+        #at this stage our column is set, now to set the rows
+        @row_pins.each do |r|
+          r.on
+        end
        
         #at this point our required lights should be on
 
         #now avoid thrashing the CPU and maybe let the light stay on for a tiny bit of time
-        sleep(0.001)
+        sleep(0.111)
 
       end
-    end
+    #end
+end

@@ -48,16 +48,16 @@ int main(void)
       }
      
       for(int i = 0; i < SIZEOF(rowPins); i++){
-        if(k == 0){
+        //if(k == 0){
           digitalWrite(rowPins[i], HIGH);
-        }
-        else{
-          digitalWrite(rowPins[i], LOW);
-        }
+        //}
+       // else{
+        //  digitalWrite(rowPins[i], LOW);
+       // }
       }
       
       //if(k == 0){
-      //  delay(0.1f);
+        delay(15.0f);
      // }
     }
   }
