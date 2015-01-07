@@ -22,7 +22,7 @@
         %tr{class: "row_#{row}"}
           %td.heading Row #{row}
           -(0..7).each do |col|
-            %td.lamp{class: "col_#{col} r#{row}c#{col}"}
+            %td.lamp{class: "col_#{col} r#{row}c#{col}", data: {col: col, row: row}}
               %span.display
                 = "#{row}:#{col}"
               .lamp_details{style: "display: none"}
