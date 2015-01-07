@@ -101,7 +101,7 @@ Thread.new do
     # Switch.all.map{|x| {r: x.row, c: x.col, ip: x.is_pressed ? 1 : 0, wp: x.was_pressed ? 1 : 0}}.to_json
     Switch.all.map{|x| {r: x.row, c: x.col, ip: rand(2), wp: x.was_pressed ? 1 : 0}}.to_json
   end
-  post 'set_lamp' do
+  post '/set_lamp' do
     if l = Lamp.find_by_location(params[:col], params[:row])
       l.state = params[:state]
     end
